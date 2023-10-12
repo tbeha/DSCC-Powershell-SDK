@@ -1,0 +1,25 @@
+# EditIsnsSettings
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**IsnsEnabled** | **Boolean** | Enable or disable iSNS. | [optional] 
+**IsnsPort** | **Int64** | Port number for iSNS Server. Positive integer value up to 65535 representing TCP/IP port. | [optional] 
+**IsnsServer** | **String** | Hostname or IP Address of iSNS Server. String of alphanumeric characters, valid range is from 2 to 255; Each label must be between 1 and 63 characters long; - and . are allowed after the first and before the last character. | [optional] 
+
+## Examples
+
+- Prepare the resource
+```powershell
+$EditIsnsSettings = Initialize-PSOpenAPIToolsEditIsnsSettings  -IsnsEnabled true `
+ -IsnsPort 1080 `
+ -IsnsServer isns-server.com
+```
+
+- Convert the resource to JSON
+```powershell
+$EditIsnsSettings | ConvertTo-JSON
+```
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
