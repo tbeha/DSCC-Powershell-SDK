@@ -105,6 +105,7 @@ function Invoke-DSCCconnection{
 ########################################################################################################################################
 $Configuration = Invoke-DSCCconnection -Inputfile '.\dscc.xml'
 
+
 ########################################################################################################################################
 # Get all storage systems
 ########################################################################################################################################
@@ -142,6 +143,30 @@ try {
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 
+
+########################################################################################################################################
+# Get all volumes 
+########################################################################################################################################
+try {
+	$Response = Invoke-VolumesList
+	$Volumes = $Response.items
+	if($Response.total -gt $Response.pageLimit){
+		$offset = $Response.pageLimit
+		While($offset -lt $Response.total){
+			$Response = Invoke-VolumesList -Offset $offset -Limit $Response.pageLimit
+			$Volumes = $Volumes + $Response.items
+			$offset = $Response.pageOffset + $Response.pageLimit
+		}
+	}
+	#$Volumes = Invoke-VolumesList -Filter 'systemId eq CZ2329042K'  | Where-Object {$_.productFamily -eq 'deviceType1'}
+    #$Volumes = (Invoke-VolumesList -Filter 'name eq DSCC\-API\-Vol').items[0]
+	#$VolumeId = $Volumes.Id
+	$Volumes | Format-Table
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-VolumesList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))    
+}
+
 ########################################################################################################################################
 # Get all volumes of a storage system
 ########################################################################################################################################
@@ -164,12 +189,12 @@ $SystemId = $SystemIds.CTC_Alletra9060 # p650 System Id
 $CreateVolumeInput = Initialize-CreateVolumeInput -Comments "DSCC API -Thomas Beha" `
   -Count 1 `
   -DataReduction $true `
-  -Name "DSCC-API-Vol" `
+  -Name "APIdemo" `
   -SizeMib 16384 `
   -SnapCpg "SSD_r6" `
   -UserCpg "SSD_r6"  
 try {
-	$Result = Invoke-VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
+	$Result = Invoke-DeviceType1VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
 	$Result | Format-List
 	Wait-DSCCTaskCompletion($Result.taskUri) | Format-Table
 } catch {
@@ -185,7 +210,7 @@ try {
 
 # Get VolumeID
 try {
-    $Volumes = (Invoke-VolumesList -Filter 'name eq DSCC\-API\-Vol').items[0]
+    $Volumes = (Invoke-VolumesList -Filter 'name eq APIdemo').items[0]
 	$VolumeId = $Volumes.Id
 } catch {
     Write-Host ("Exception occurred when calling Invoke-VolumesList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
@@ -194,12 +219,13 @@ try {
 # Get Host Group 
 try {
 	$HostGroup = (Invoke-HostGroupList -Filter 'name eq VDI').items[0]
+	$HostGroupId = $HostGroup.id
 } catch {
 	Write-Host ("Exception occurred when calling Invoke-HostGroupList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
 	Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))    
 }
 
-$VlunsCreateInput = Initialize-VlunsCreateInput -AutoLun $true -HostGroupIds $HostGroup.Id -MaxAutoLun 10 -Proximity "ALL" # VlunsCreateInput | Position "position_1" 
+$VlunsCreateInput = Initialize-VlunsCreateInput -AutoLun $true -HostGroupIds $HostGroupId -MaxAutoLun 10 -Proximity "ALL" # VlunsCreateInput | Position "position_1" 
 # Export vlun for volume identified by {id} from Primera / Alletra 9K identified by {systemId}
 try {
     $Result = Invoke-DeviceType1VlunExport -SystemId $SystemId -Id $VolumeId -VlunsCreateInput $VlunsCreateInput
@@ -215,10 +241,18 @@ try {
 #	Delete Volume
 ########################################################################################################################################
 
+$UnExportVlun = Initialize-UnExportVlun -HostGroupIds $HostGroupId
+try{
+	$Result = Invoke-DeviceType1VlunUnexport -SystemId $SystemId -Id $VolumeId -UnExportVlun $UnExportVlun
+	$Result = Wait-DSCCTaskCompletion($Result.taskUri)
+} catch {
+	Write-Host ("Exception occurred when calling Invoke-HostGroupList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+	Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))    
+}
+
 try {
-    $Result = Invoke-VolumeDelete -SystemId $SystemId -Id $VolumeId -UnExport $true -Cascade $true
+    $Result = Invoke-DeviceType1VolumeDelete -SystemId $SystemId -Id $VolumeId 
 	$Result = Wait-DSCCTaskCompletion($Result.taskUri)
 } catch {
     Write-Host ("Exception occurred when calling Invoke-VolumeDelete: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
