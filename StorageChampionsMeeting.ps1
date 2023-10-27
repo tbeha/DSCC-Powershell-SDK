@@ -15,7 +15,7 @@ winget install --id Microsoft.Powershell.Preview --source winget
 
 #>
 
-Import-Module -Name '.\powershell.sdk\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
+Import-Module -Name '.\v1.4.0.sdk\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
 
 function Wait-DSCCTaskCompletion{
 	<#
