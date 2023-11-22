@@ -121,7 +121,7 @@ $Source = $Systems | Where-Object{$_.name -eq 'CTC-MP-Block8'}
 ########################################################################################################################################
 # Create the source Volume (DSCC-API-Vol, 16GB; on MP-Block8)
 ########################################################################################################################################
-'''
+
 # Create new Volumes
 $CreateVolumeInput = Initialize-ArcuscreateVolumeInput -Comments "DSCC API -Thomas Beha" `
   -Count 2 `
@@ -158,7 +158,7 @@ try {
     Write-Host ("Exception occurred when calling Invoke-DeviceType1VolumeSetsCreate: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
-'''
+
 ##################################################################################
 # Create a Protection Policy for the Application Set
 ##################################################################################
@@ -202,35 +202,3 @@ try{
     Write-Host ("Exception occurred when calling Invoke-RestMethod: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
-
-'''
-# Get Protection Policies 
-
-try {
-    $Result = (Invoke-DeviceType4GetProtectionPolicies -Id $AppSet.id -SystemId $Source.Id).items
-	foreach ($rep in $Result){
-		$rep | Format-List
-	} 
-} catch {
-    Write-Host ("Exception occurred when calling Invoke-DeviceType4GetProtectionPolicies: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
-
-
-# 3. create a synchronous protection policy
-$ArcusProtectionPolicyRemoteInputSchema = Initialize-ArcusProtectionPolicyRemoteInputSchema -PartnerId $RepPartner[0].remoteId -PartnerName $RepPartner[0].remoteSystemName -ReplicationType "sync" 
-#$ArcusProtectionPolicyInputSchema = Initialize-ArcusProtectionPolicyInputSchema -Remote $ArcusProtectionPolicyRemoteInputSchema -ZeroRtoConfig "APP"
-$ArcusProtectionPolicySecondaryRemoteInputSchema = Initialize-ArcusProtectionPolicySecondaryRemoteInputSchema -ReplicationType "periodic" -PartnerId "" -PartnerName ""
-$ArcusProtectionPolicyInputSchema = Initialize-ArcusProtectionPolicyInputSchema -Remote $ArcusProtectionPolicyRemoteInputSchema -SecondaryRemote $ArcusProtectionPolicySecondaryRemoteInputSchema -ZeroRtoConfig "APP" -RpoSecs 600 
-$ArcusProtectionScheduleInputSchema = Initialize-ArcusProtectionScheduleInputSchema -AtTime 2 -DayOfMonth 10 -Days "sunday,monday" -ExpireSecs 3600 -IsRemote $true -Name "Every_1_hour_on_sunday_monday" -Period 1 -PeriodUnit "minutes" -RetainSecs 3600 -UntilTime 7
-$ArcusCreateProtectionPolicyInputSchema = Initialize-ArcusCreateProtectionPolicyInputSchema -Policy $ArcusProtectionPolicyInputSchema -ProtectionPolicyType "schedule" -Schedules $ArcusProtectionScheduleInputSchema
-try {
-    $Result = Invoke-DeviceType4CreateProtectionPolicy -Id $AppSet.id -SystemId $Source.Id -ArcusCreateProtectionPolicyInputSchema $ArcusCreateProtectionPolicyInputSchema
-	$Result | Format-List
-} catch {
-    Write-Host ("Exception occurred when calling Invoke-DeviceType4CreateProtectionPolicy: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
-'''
-
-

@@ -113,6 +113,7 @@ try {
     $Systems = (Invoke-SystemsList).items #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
 	foreach($sys in $Systems){
 		$SystemIds = $SystemIds + @{$sys.Name = $sys.Id}
+		$Result = Invoke-SystemGetById -Id $sys.Id
 	}	
 	$Systems | Format-Table
 	$SystemIds | Format-Table
