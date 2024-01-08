@@ -153,7 +153,7 @@ $NimbleStorageSystemDetailsWithRequestUri = Initialize-PSOpenAPIToolsNimbleStora
  -AllowSupportTunnel false `
  -ArrayUnassignMigrationStatus null `
  -Arrays null `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817/controllers/010df0fe6f7dc7bb16000000000000000000000007&quot;,&quot;type&quot;:&quot;controllers&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817/controllers/010df0fe6f7dc7bb16000000000000000000000007, type&#x3D;controllers}] `
  -AutoSwitchoverEnabled true `
  -AutoSwitchoverMessages null `
  -AutocleanUnmanagedSnapshotsEnabled false `

@@ -25,7 +25,7 @@ $NimbleWitnessDetails = Initialize-PSOpenAPIToolsNimbleWitnessDetails  -RequestU
  -Id 2a0df0fe6f7dc7bb16000000000000000000004007 `
  -Port 18976 `
  -Username witness9801 `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -AutoSwitchoverMessages null `
  -ConsoleUri data-ops-manager/storage-systems/device-type2/001491cb6652a03a6b000000000000000000000001/witnesses/071491cb6652a03a6b00000000000000000000000 `
  -CustomerId string `

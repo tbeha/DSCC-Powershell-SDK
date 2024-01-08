@@ -92,7 +92,7 @@ Name | Type | Description | Notes
 
 - Prepare the resource
 ```powershell
-$DeviceType4EnclosuresGetById200Response = Initialize-PSOpenAPIToolsDeviceType4EnclosuresGetById200Response  -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/v1/storage-systems/device-type4/2FF70002AC01F0FF&quot;,&quot;type&quot;:&quot;systems&quot;},{&quot;resourceUri&quot;:&quot;/v1/storage-systems/device-type4/2FF70002AC01F0FF/enclosures/9c3c4f29a82fd8d632ff379116fa0b8f&quot;,&quot;type&quot;:&quot;enclosures&quot;}] `
+$DeviceType4EnclosuresGetById200Response = Initialize-PSOpenAPIToolsDeviceType4EnclosuresGetById200Response  -AssociatedLinks [{resourceUri&#x3D;/v1/storage-systems/device-type4/2FF70002AC01F0FF, type&#x3D;systems}, {resourceUri&#x3D;/v1/storage-systems/device-type4/2FF70002AC01F0FF/enclosures/9c3c4f29a82fd8d632ff379116fa0b8f, type&#x3D;enclosures}] `
  -ChainPosLoopA 0 `
  -ChainPosLoopB 0 `
  -ConsoleUri data-ops-manager/storage-systems/device-type4/SGH014XGSP/enclosures/9c3c4f29a82fd8d632ff379116fa0b8f `

@@ -70,7 +70,7 @@ $NimbleFolderDetailsWithRequestUri = Initialize-PSOpenAPIToolsNimbleFolderDetail
  -AppUuid 00000002000040008a259996ae869835 `
  -AppserverId null `
  -AppserverName null `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -CapacityBytes 244695092429 `
  -CompressedSnapUsageBytes 0 `
  -CompressedVolUsageBytes 0 `

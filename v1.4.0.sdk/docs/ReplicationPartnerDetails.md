@@ -54,7 +54,7 @@ $ReplicationPartnerDetails = Initialize-PSOpenAPIToolsReplicationPartnerDetails 
  -Name RCPartner12 `
  -ReplicationPartnerType FC `
  -Status Ready `
- -AssociatedLinks [{&quot;link&quot;:&quot;/v1/storage-systems/SGH000XWEE&quot;,&quot;type&quot;:&quot;systems&quot;}] `
+ -AssociatedLinks [{link&#x3D;/v1/storage-systems/SGH000XWEE, type&#x3D;systems}] `
  -BufferSizeB 1024 `
  -CustomerId fc5f41652a53497e88cdcebc715cc1cf `
  -DisplayName RCPartner12 `

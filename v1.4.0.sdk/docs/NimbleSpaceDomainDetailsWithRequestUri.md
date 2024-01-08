@@ -65,7 +65,7 @@ $NimbleSpaceDomainDetailsWithRequestUri = Initialize-PSOpenAPIToolsNimbleSpaceDo
  -Usage 878976 `
  -VolLogicalUsage 35500032 `
  -VolMappedUsage 35500032 `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -ConsoleUri data-ops-manager/storage-systems/device-type2/001491cb6652a03a6b000000000000000000000001/storage-pools/071491cb6652a03a6b000000000000000000000006 `
  -CustomerId string `
  -DedupedVolumeCount 0 `

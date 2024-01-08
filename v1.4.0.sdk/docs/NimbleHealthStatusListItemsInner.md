@@ -24,7 +24,7 @@ $NimbleHealthStatusListItemsInner = Initialize-PSOpenAPIToolsNimbleHealthStatusL
  -CtrlrId active `
  -Id 1300000000000004d30000000000000001 `
  -Scope array `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -CustomerId string `
  -ElementResult null `
  -Generation 0 `

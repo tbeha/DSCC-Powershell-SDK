@@ -61,7 +61,7 @@ $NimblePoolsListItemsInner = Initialize-PSOpenAPIToolsNimblePoolsListItemsInner 
  -AllFlash true `
  -ArrayCount 2 `
  -ArrayList null `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -CacheCapacity 256 `
  -Capacity 1024 `
  -CloneRatio 9.18 `

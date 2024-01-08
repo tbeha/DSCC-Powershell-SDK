@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 $ArcusWitnessDetails = Initialize-PSOpenAPIToolsArcusWitnessDetails  -ConsoleUri data-ops-manager/storage-systems/device-type4/SGH000XWEE/system-settings/quorum-witness/5a5ce66d4814a5e5156de428abb0a589 `
  -RequestUri /api/v1/storage-systems/device-type4/SGH000XWEE/system-settings/quorum-witness/5a5ce66d4814a5e5156de428abb0a589 `
  -Id 5a5ce66d4814a5e5156de428abb0a589 `
- -AssociatedLinks [{&quot;link&quot;:&quot;/v1/storage-systems/SGH000XWEE&quot;,&quot;type&quot;:&quot;systems&quot;}] `
+ -AssociatedLinks [{link&#x3D;/v1/storage-systems/SGH000XWEE, type&#x3D;systems}] `
  -CustomerId fc5f41652a53497e88cdcebc715cc1cf `
  -Generation 0 `
  -IsRemoteArraySupportReplication true `

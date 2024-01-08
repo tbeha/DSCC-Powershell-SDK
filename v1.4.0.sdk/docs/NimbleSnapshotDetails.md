@@ -69,7 +69,7 @@ $NimbleSnapshotDetails = Initialize-PSOpenAPIToolsNimbleSnapshotDetails  -Reques
  -AccessControlRecords null `
  -AgentType none `
  -AppUuid rfc4122.943f7dc1-5853-497c-b530-f689ccf1bf18 `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -ConsoleUri data-ops-manager/storage-systems/device-type2/001491cb6652a03a6b000000000000000000000001/storage-pools/071491cb6652a03a6b000000000000000000000006 `
  -CreationTime 1598951404 `
  -CustomerId string `

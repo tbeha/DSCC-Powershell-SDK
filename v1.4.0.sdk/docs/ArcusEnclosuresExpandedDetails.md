@@ -109,7 +109,7 @@ $ArcusEnclosuresExpandedDetails = Initialize-PSOpenAPIToolsArcusEnclosuresExpand
  -Type string `
  -WriteErrors null `
  -Wwn 5000C500997AB7B0 `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/v1/storage-systems/device-type4/2FF70002AC01F0FF&quot;,&quot;type&quot;:&quot;systems&quot;},{&quot;resourceUri&quot;:&quot;/v1/storage-systems/device-type4/2FF70002AC01F0FF/enclosures/9c3c4f29a82fd8d632ff379116fa0b8f&quot;,&quot;type&quot;:&quot;enclosures&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/v1/storage-systems/device-type4/2FF70002AC01F0FF, type&#x3D;systems}, {resourceUri&#x3D;/v1/storage-systems/device-type4/2FF70002AC01F0FF/enclosures/9c3c4f29a82fd8d632ff379116fa0b8f, type&#x3D;enclosures}] `
  -Dcsdata null `
  -ElementStatusCode ok `
  -EnclosureCardId 0 `

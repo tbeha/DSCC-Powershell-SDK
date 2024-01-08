@@ -113,7 +113,7 @@ try {
     $Systems = (Invoke-SystemsList).items #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
 	foreach($sys in $Systems){
 		$SystemIds = $SystemIds + @{$sys.Name = $sys.Id}
-		$Result = Invoke-SystemGetById -Id $sys.Id
+		#$Response = Invoke-SystemGetById -Id $sys.Id
 	}	
 	$Systems | Format-Table
 	$SystemIds | Format-Table
@@ -126,10 +126,19 @@ try {
 # Get all host
 ########################################################################################################################################
 try {
-    $Hosts = Invoke-HostList #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
-	$Hosts.items | Format-Table
+    $Response = Invoke-HostList #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
+	$Hosts = $Response.items
+	if($Response.total -gt $Response.pageLimit){
+		$offset = $Response.pageLimit
+		While($offset -lt $Response.total){
+			$Response = Invoke-HostList -Offset $offset -Limit $Response.pageLimit
+			$Hosts = $Hosts + $Response.items
+			$offset = $Response.pageOffset + $Response.pageLimit
+		}
+	}	
+	$Hosts | Format-Table
 } catch {
-    Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-HostList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 
@@ -137,10 +146,19 @@ try {
 # Get all hostgorups
 ########################################################################################################################################
 try {
-    $HostGroups = Invoke-HostGroupList #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
-	$HostGroups.items | Format-Table
+    $Response = Invoke-HostGroupList #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
+	$HostGroups = $Response.items
+	if($Response.total -gt $Response.pageLimit){
+		$offset = $Response.pageLimit
+		While($offset -lt $Response.total){
+			$Response = Invoke-HostGroupList -Offset $offset -Limit $Response.pageLimit
+			$HostGroups = $HostGroups + $Response.items
+			$offset = $Response.pageOffset + $Response.pageLimit
+		}
+	}	
+	$HostGroups | Format-Table
 } catch {
-    Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-HostGroupList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 

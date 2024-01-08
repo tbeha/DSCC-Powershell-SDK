@@ -37,7 +37,7 @@ $NimbleEventsWithRequestUri = Initialize-PSOpenAPIToolsNimbleEventsWithRequestUr
  -TargetType array `
  -Timestamp 3400 `
  -Activity Created snapshot % of volume % `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -ConsoleUri data-ops-manager/storage-systems/device-type2/001491cb6652a03a6b000000000000000000000001/events/071491cb6652a03a6b000000000000000000000006 `
  -CustomerId string `
  -Generation 0 `

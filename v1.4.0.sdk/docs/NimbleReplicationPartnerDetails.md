@@ -88,7 +88,7 @@ $NimbleReplicationPartnerDetails = Initialize-PSOpenAPIToolsNimbleReplicationPar
  -Version -1234 `
  -VolumeCollectionListCount 1234 `
  -Alias null `
- -AssociatedLinks [{&quot;resourceUri&quot;:&quot;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817&quot;,&quot;type&quot;:&quot;storage-systems&quot;}] `
+ -AssociatedLinks [{resourceUri&#x3D;/api/v1/storage-systems/device-type2/2a0df0fe6f7dc7bb16000000000000000000004817, type&#x3D;storage-systems}] `
  -ControlPort 1234 `
  -CustomerId string `
  -DataPort 1234 `
