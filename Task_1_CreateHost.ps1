@@ -7,18 +7,17 @@ $Initiator = Initialize-InitiatorInput -Address "10:00:be:d8:0d:50:00:44" `
  -Protocol "FC" `
  -Vendor hpe
 
-# Get the list of existing Initiators
+# Check if Initiator already exists
 try {
-    $Initiators = (Invoke-HostInitiatorList).items
-    $Initiators | Format-Table
+	$Filter = 'startswith('''+$Initiator.address+''',address) eq true'
+    $Response = (Invoke-HostInitiatorList -Filter $Filter).items
 } catch {
     Write-Host ("Exception occurred when calling Invoke-HostInitiatorList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))    
 }
-# Check Inititor existence
-$Result = $Initiators | Where-Object {$_.address -eq $Initiator.address}
-if($Result){
-	$InitiatorIds = $InitiatorIds + $Result.Id
+#$Result = $Initiators | Where-Object {$_.address -eq $Initiator.address}
+if($Response){
+	$InitiatorIds = $InitiatorIds + $Response[0].Id
 } else {
 	$InitiatorsToCreate = $InitiatorsToCreate + $Initiator
 }
@@ -30,9 +29,16 @@ $Initiator = Initialize-InitiatorInput  -Address "10:00:be:d8:0d:50:00:46" `
  -Vendor hpe
 
 # Check Inititor existence
-$Result = $Initiators | Where-Object {$_.address -eq $Initiator.address}
-if($Result){
-	$InitiatorIds = $InitiatorIds + $Result.Id
+# Check if Initiator already exists
+try {
+	$Filter = 'startswith('''+$Initiator.address+''',address) eq true'
+    $Response = (Invoke-HostInitiatorList -Filter $Filter).items
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-HostInitiatorList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))    
+}
+if($Response){
+	$InitiatorIds = $InitiatorIds + $Response[0].Id
 } else {
 	$InitiatorsToCreate = $InitiatorsToCreate + $Initiator
 }
@@ -57,8 +63,8 @@ $CreateHostInput | ConvertTo-JSON
 
 # Create a host
 try {
-    $Result = Invoke-HostCreate -CreateHostInput $CreateHostInput
-	$Result | Format-List
+    $Response = Invoke-HostCreate -CreateHostInput $CreateHostInput
+	$Response | Format-List
 } catch {
     Write-Host ("Exception occurred when calling Invoke-HostCreate: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
