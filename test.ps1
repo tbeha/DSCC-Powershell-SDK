@@ -105,5 +105,57 @@ function Invoke-DSCCconnection{
 ########################################################################################################################################
 $Configuration = Invoke-DSCCconnection -Inputfile '.\dscc.xml'
 
+########################################################################################################################################
+# Get all storage systems
+########################################################################################################################################
+try {
+    $Systems = (Invoke-SystemsList).items #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+$SystemId = ($Systems | Where-Object{$_.name -eq 'CTC-MP-Block8'}).Id
+
+# Create a volume on Alletra MP
+#$SystemId = ($Systems | Where-Object{$_.name -eq 'CTC-MP-Block8'}).Id
+'''
+$CreateVolumeInput = Initialize-ArcuscreateVolumeInput -Comments "DSCC API -Thomas Beha" `
+  -Count 1 `
+  -DataReduction $true `
+  -Name "DSCC-API-Demo" `
+  -SizeMib 16384 `
+  -UserCpg "SSD_r6" `
+  -SnapshotAllocWarning 5 `
+  -userAllocWarning 5
+try {
+	$Result = Invoke-VolumeCreate -SystemId $SystemId -ArcuscreateVolumeInput $CreateVolumeInput
+	Wait-DSCCTaskCompletion($Result.taskUri) | Format-Table
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-CreateVolume: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))	
+}
+'''
+# Delete the Volume
+
+$VolumeName = 'DSCC-API'
+$Filter = 'startswith('''+$VolumeName+''',name) eq true'
+try{
+	$Response = Invoke-VolumesList -Filter $Filter 
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-VolumesList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json)) 	
+}
+$Volumes = $Response.items
+#$UnExport = $true
+#$Cascade = $true
+foreach($Volume in $Volumes){
+	try{
+		$Response = Invoke-VolumeDelete -SystemId $Volume.systemId -Id $Volume.id #-UnExport $UnExport -Cascade $Cascade
+		$Response | Format-List
+	} catch{
+		Write-Host ("Exception occurred when calling Invoke-DeleteVolume: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+		Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json)) 		
+	}
+}
 
 
