@@ -1,10 +1,10 @@
 <#
 
-Collection of daily task operations using the HPE DSCC Powershell SDK
-(C) Thomas Beha, November 2023
+HPE DSCC Powershell SDK apitests
+(C) Thomas Beha, February 2024, v1.0
 
 Requirements:
-- HPE DSCC Powershell SDK  v1.4.0
+- HPE DSCC Powershell SDK
 - Microsoft Powershell 7
 
 Get PowerShell 7:
@@ -100,6 +100,7 @@ function Invoke-DSCCconnection{
 	}
 } # end function Invoke-DSCC
 
+
 ########################################################################################################################################
 # Start with creating the Configuration object and retrieving the access_token
 ########################################################################################################################################
@@ -110,16 +111,13 @@ $Configuration = Invoke-DSCCconnection -Inputfile '.\dscc.xml'
 ########################################################################################################################################
 try {
     $Systems = (Invoke-SystemsList).items #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
+	foreach($sys in $Systems){
+		$SystemIds = $SystemIds + @{$sys.Name = $sys.Id}
+		#$Response = Invoke-SystemGetById -Id $sys.Id
+	}	
+	$Systems | Format-Table
+	$SystemIds | Format-Table
 } catch {
     Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
-
-$SystemList=@{}
-foreach($sys in $Systems){
-	$SystemList[$sys.name]=$sys.id
-}
-
-
-
-
