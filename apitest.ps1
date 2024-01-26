@@ -115,9 +115,40 @@ try {
 		$SystemIds = $SystemIds + @{$sys.Name = $sys.Id}
 		#$Response = Invoke-SystemGetById -Id $sys.Id
 	}	
-	$Systems | Format-Table
-	$SystemIds | Format-Table
+	#$Systems | Format-Table
+	#$SystemIds | Format-Table
 } catch {
     Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+
+########################################################################################################################################
+# Get the audit events
+########################################################################################################################################
+
+try {
+	$Response = Invoke-AuditEventsGet
+	$AuditEvents = $Response.items
+	$AuditEvents | Format-Table
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-AuditEventsGet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+
+# Get User Accessible Resources
+try {
+    $Response = Get-AccessControls -Permission 'permission=ANY.create'
+	$Response | Format-List
+} catch {
+    Write-Host ("Exception occurred when calling Get-AccessControls: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+
+# Get resource types with read permissions
+try {
+    $Response = Get-ResourceTypes
+	$Response | Format-List
+} catch {
+    Write-Host ("Exception occurred when calling Get-ResourceTypes: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
