@@ -17,6 +17,15 @@ winget install --id Microsoft.Powershell.Preview --source winget
 
 Import-Module -Name '.\v1.4.0.sdk\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
 
+$SysIds=@{ 
+	a5k3='007cec05c9314b1f21000000000000000000000001';
+	a6k3='0016c831c87e07680b000000000000000000000001';
+	a9k6='CZ2329042K';
+	mp8c='CZ232706D2'; 
+	mp16c='CZ23260BRT';
+	vast='e68cfb0c-ffb1-575c-90dc-3d3f6394ead1'
+}
+
 function Wait-DSCCTaskCompletion{
 	<#
 	.SYNOPSIS
@@ -115,40 +124,19 @@ try {
 		$SystemIds = $SystemIds + @{$sys.Name = $sys.Id}
 		#$Response = Invoke-SystemGetById -Id $sys.Id
 	}	
-	#$Systems | Format-Table
-	#$SystemIds | Format-Table
+	$Systems | Format-Table
+	$SystemIds | Format-Table
 } catch {
     Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 
-########################################################################################################################################
-# Get the audit events
-########################################################################################################################################
+$SysIds | Format-Table
 
+$SystemId = $SysIds.a6k3
 try {
-	$Response = Invoke-AuditEventsGet
-	$AuditEvents = $Response.items
-	$AuditEvents | Format-Table
+    $Result = Invoke-DeviceType2GetAlarms -SystemId $SystemId -Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
 } catch {
-    Write-Host ("Exception occurred when calling Invoke-AuditEventsGet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
-
-# Get User Accessible Resources
-try {
-    $Response = Get-AccessControls -Permission 'permission=ANY.create'
-	$Response | Format-List
-} catch {
-    Write-Host ("Exception occurred when calling Get-AccessControls: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
-
-# Get resource types with read permissions
-try {
-    $Response = Get-ResourceTypes
-	$Response | Format-List
-} catch {
-    Write-Host ("Exception occurred when calling Get-ResourceTypes: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-DeviceType2GetAlarms: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
