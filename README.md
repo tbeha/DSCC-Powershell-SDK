@@ -33,14 +33,8 @@ winget install --id Microsoft.PowerShell.Preview --source winget
 
 # API Documentation links
 
+The Powershell SDK Documentation is available at: https://github.com/tbeha/DSCC-Powershell-SDK/tree/main/v1.5.0
+
 HPE GreenLake Developer Portal:  https://developer.greenlake.hpe.com/
 
 DSCC: https://console-us1.data.cloud.hpe.com/doc/api/v1/
-
-GLBR: https://developer.greenlake.hpe.com/docs/greenlake/services/backup-recovery/public/
-
-PCBE: https://developer.greenlake.hpe.com/docs/greenlake/services/private-cloud-business/public/
-
-Virtualization: https://developer.greenlake.hpe.com/docs/greenlake/services/virtualization/public/
-
-COM: https://developer.greenlake.hpe.com/docs/greenlake/services/compute-ops/public/

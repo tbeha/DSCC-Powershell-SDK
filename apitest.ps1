@@ -15,7 +15,7 @@ winget install --id Microsoft.Powershell.Preview --source winget
 
 #>
 
-Import-Module -Name '.\v1.4.0.sdk\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
+Import-Module -Name '.\v1.5.0\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
 
 $SysIds=@{ 
 	a5k3='007cec05c9314b1f21000000000000000000000001';
