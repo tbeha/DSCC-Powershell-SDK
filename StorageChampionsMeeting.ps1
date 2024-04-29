@@ -15,7 +15,7 @@ winget install --id Microsoft.Powershell.Preview --source winget
 
 #>
 
-Import-Module -Name '.\v1.4.0.sdk\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
+Import-Module -Name '.\DSCC\Powershell-SDK\v1.5.0\src\PSOpenAPITools' -SkipEditionCheck -Verbose
 
 function Wait-DSCCTaskCompletion{
 	<#
@@ -103,12 +103,14 @@ function Invoke-DSCCconnection{
 ########################################################################################################################################
 # Start with creating the Configuration object and retrieving the access_token
 ########################################################################################################################################
-$Configuration = Invoke-DSCCconnection -Inputfile '.\dscc.xml'
+$Configuration = Invoke-DSCCconnection -Inputfile '.\Credentials\dscc.xml'
 
 
 ########################################################################################################################################
 # Get all storage systems
 ########################################################################################################################################
+$Systems = @{}
+$SystemIds = @{}
 try {
     $Systems = (Invoke-SystemsList).items #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
 	foreach($sys in $Systems){
@@ -213,11 +215,12 @@ $CreateVolumeInput = Initialize-CreateVolumeInput -Comments "DSCC API -Thomas Be
   -SnapCpg "SSD_r6" `
   -UserCpg "SSD_r6"  
 try {
-	$Result = Invoke-DeviceType1VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
+	#$Result = Invoke-DeviceType1VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
+	$Result = Invoke-VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
 	$Result | Format-List
 	Wait-DSCCTaskCompletion($Result.taskUri) | Format-Table
 } catch {
-    Write-Host ("Exception occurred when calling Invoke-CreateVolume: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-CreateVolume: {0}" -f ($_))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))	
 }
 

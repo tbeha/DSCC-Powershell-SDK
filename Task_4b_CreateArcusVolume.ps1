@@ -11,7 +11,7 @@ $CreateVolumeInput = Initialize-ArcuscreateVolumeInput -Comments "DSCC API -Thom
   -UserCpg "SSD_r6"  
 
 try {
-	$Result = Invoke-VolumeCreate -SystemId $Sys.Id -ArcuscreateVolumeInput $CreateVolumeInput
+	$Result = Invoke-DeviceType4VolumeCreate -SystemId $SysIds['mp8c'] -ArcuscreateVolumeInput $CreateVolumeInput
 	$Result | Format-List
 	Wait-DSCCTaskCompletion($Result.taskUri) | Format-Table
 } catch {

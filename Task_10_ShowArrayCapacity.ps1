@@ -1,6 +1,6 @@
 # Get the system list
 try {
-    $Systems = (Invoke-DeviceType1SystemsList).items
+    $Systems = (Invoke-DeviceType4SystemsList).items
     $Systems | Format-List
 } catch {
     Write-Host ("Exception occurred when calling Invoke-DeviceType1SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
@@ -9,7 +9,7 @@ try {
 # Get the System Capacity
 foreach ($s in $Systems) {
     try {
-        $Response = Invoke-DeviceType1SystemCapacitySummaryGet -SystemId $s.id
+        $Response = Invoke-DeviceType4SystemCapacitySummaryGet -SystemId $s.id
         $Response | Format-Table
     } catch {
         Write-Host ("Exception occurred when calling Invoke-DeviceType1SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))

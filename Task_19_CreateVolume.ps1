@@ -16,7 +16,7 @@ $CreateVolumeInput = Initialize-ArcuscreateVolumeInput -Comments "DSCC API -Thom
   -SnapshotAllocWarning 5 `
   -userAllocWarning 5
 try {
-	$Result = Invoke-VolumeCreate -SystemId $SystemId -ArcuscreateVolumeInput $CreateVolumeInput
+	$Result = Invoke-DeviceType4VolumeCreate -SystemId $SystemId -ArcuscreateVolumeInput $CreateVolumeInput
 	Wait-DSCCTaskCompletion($Result.taskUri) | Format-Table
 } catch {
     Write-Host ("Exception occurred when calling Invoke-CreateVolume: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
@@ -33,7 +33,7 @@ $CreateVolumeInput = Initialize-CreateVolumeInput -Comments "DSCC API -Thomas Be
   -SnapCpg "SSD_r6" `
   -UserCpg "SSD_r6"  
 try {
-	$Result = Invoke-DeviceType1VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
+	$Result = Invoke-VolumeCreate -SystemId $SystemId -CreateVolumeInput $CreateVolumeInput
 	Wait-DSCCTaskCompletion($Result.taskUri) | Format-Table
 } catch {
     Write-Host ("Exception occurred when calling Invoke-CreateVolume: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))

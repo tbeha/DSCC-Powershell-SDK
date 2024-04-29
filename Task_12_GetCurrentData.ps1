@@ -1,3 +1,11 @@
+try{
+    $Systems = (Invoke-SystemsList).items
+    $Systems | Format-Table
+} catch {
+    Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))    
+}
+
 try {
     $Systems = (Invoke-DeviceType1SystemsList).items
     $Systems | Format-Table
@@ -63,9 +71,6 @@ if($Result.total -gt $Result.pageLimit){
 	}
 }
 $Volumes | Format-Table
-
-
-
 
 try {
     $Volumesets = (Invoke-VolumesetList).items
