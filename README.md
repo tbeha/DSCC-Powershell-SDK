@@ -20,7 +20,9 @@ https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.5.0/open
 
 Generate the Powershell SDK (note that you need to have Java installed on your system):
 
-  java -jar openapi-generator-cli-7.5.0.jar generate -i storage-api.yaml -g powershell -o dscc-powershell-sdk
+  java -jar openapi-generator-cli-7.5.0.jar generate -i storage-api.yaml -g powershell -o dscc-powershell-sdk --package-name dscc_client
+
+You can also use the GenerateDSCC-Pwsh.ps1 script to generate the DSCC API Powershell client 
 
 # Powershell 7 Installation:
 The Powershell SDK requires Powershell 7.

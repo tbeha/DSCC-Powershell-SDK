@@ -1,7 +1,7 @@
 <#
 
 Collection of daily task operations using the HPE DSCC Powershell SDK
-(C) Thomas Beha, August 2023, v1.0
+(C) Thomas Beha, Maz 2024, v2.0
 
 Requirements:
 - HPE DSCC Powershell SDK
@@ -15,7 +15,7 @@ winget install --id Microsoft.Powershell.Preview --source winget
 
 #>
 
-Import-Module -Name '.\v1.5.0\src\PSOpenAPITools' -SkipEditionCheck -Verbose
+Import-Module -Name '.\v1.5.0\src\dscc_client' -SkipEditionCheck -Verbose
 
 function Wait-DSCCTaskCompletion{
 	<#
