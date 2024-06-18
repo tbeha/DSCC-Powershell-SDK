@@ -1,7 +1,7 @@
 <#
 
-HPE DSCC Powershell SDK apitests
-(C) Thomas Beha, February 2024, v1.0
+Collection of daily task operations using the HPE DSCC Powershell SDK
+(C) Thomas Beha, August 2023, v1.0
 
 Requirements:
 - HPE DSCC Powershell SDK
@@ -15,16 +15,7 @@ winget install --id Microsoft.Powershell.Preview --source winget
 
 #>
 
-Import-Module -Name '.\v1.5.0\src\PSOpenAPITools' -SkipEditionCheck #-Verbose
-
-$SysIds=@{ 
-	a5k3='007cec05c9314b1f21000000000000000000000001';
-	a6k3='0016c831c87e07680b000000000000000000000001';
-	a9k6='CZ2329042K';
-	mp8c='CZ232706D2'; 
-	mp16c='CZ23260BRT';
-	vast='e68cfb0c-ffb1-575c-90dc-3d3f6394ead1'
-}
+Import-Module -Name '.\v1.5.0\src\PSOpenAPITools' -SkipEditionCheck -Verbose
 
 function Wait-DSCCTaskCompletion{
 	<#
@@ -109,34 +100,21 @@ function Invoke-DSCCconnection{
 	}
 } # end function Invoke-DSCC
 
-
 ########################################################################################################################################
 # Start with creating the Configuration object and retrieving the access_token
 ########################################################################################################################################
-$Configuration = Invoke-DSCCconnection -Inputfile '.\dscc.xml'
+$Configuration = Invoke-DSCCconnection -Inputfile '.\Credentials\dscc.xml'
+
 
 ########################################################################################################################################
-# Get all storage systems
+# Get hostgroup VDI
 ########################################################################################################################################
-try {
-    $Systems = (Invoke-SystemsList).items #-Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
-	foreach($sys in $Systems){
-		$SystemIds = $SystemIds + @{$sys.Name = $sys.Id}
-		#$Response = Invoke-SystemGetById -Id $sys.Id
-	}	
-	$Systems | Format-Table
-	$SystemIds | Format-Table
+try{
+	$Response = Invoke-HostGroupList -Filter "startswith('VDI',name) eq true"
+	$HostGroup = Response.items
+	$HostGroup | Format-List
 } catch {
-    Write-Host ("Exception occurred when calling Invoke-SystemsList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-HostGroupList: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 
-$SysIds | Format-Table
-
-$SystemId = $SysIds.a6k3
-try {
-    $Result = Invoke-DeviceType2GetAlarms -SystemId $SystemId -Limit $Limit -Offset $Offset -Filter $Filter -Sort $Sort -Select $Select
-} catch {
-    Write-Host ("Exception occurred when calling Invoke-DeviceType2GetAlarms: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
